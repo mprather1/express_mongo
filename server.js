@@ -4,10 +4,11 @@ var bodyParser = require("body-parser");
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/api');
-var User = require("./app/models/user");
+var User = require("./db/models/user");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(express.static(__dirname + "/app"));
 
 var port = process.env.PORT || 8000;
 
