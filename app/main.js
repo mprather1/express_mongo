@@ -17,7 +17,7 @@ var UserView = Backbone.View.extend({
   tagName: 'tr',
   render: function(){
     this.$el.html(_.map([
-      this.model.get("name"),
+      this.model.get("firstName") + " " + this.model.get("lastName"),
       this.model.get("phone"),
       this.model.get("email")
     ], function(val, key){
@@ -55,7 +55,7 @@ var UsersView = Backbone.View.extend({
     return this;
   },
   sortName: function(){
-    this.collection.comparator = 'name'
+    this.collection.comparator = 'lastName'
     this.collection.sort();
   },
   sortEmail: function(){
