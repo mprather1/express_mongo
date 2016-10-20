@@ -31,7 +31,15 @@ router.route('/users')
         res.send(err);
       res.json({ message: "User created..." });
     });
-  });
+  })
+  
+  .get(function(req, res){
+    User.find(function(err, users){
+      if (err)
+        res.send(err);
+      res.json(users);
+    });
+  })
 
 app.use('/api', router);
 
