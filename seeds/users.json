@@ -1,4 +1,4 @@
 [
-  {"name": "Michael Prather", "phone": "8005551234"},
-  {"name": "Kill Bill", "phone": "8005556666"}
+  {"name": "Michael Prather", "phone": "8005551234", "email": "mprather@example.com"},
+  {"name": "Kill Bill", "phone": "8005556666", "email": "killbill@example.com"}
 ]
