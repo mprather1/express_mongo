@@ -1,0 +1,5 @@
+{
+	"undefined": "mongodb://localhost/api",
+	"dev": "mongodb://localhost/api",
+	"prod": "mongodb://localhost/api"
+}
