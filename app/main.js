@@ -9,7 +9,8 @@ var User = Backbone.Model.extend({
 });
 
 var Users = Backbone.Collection.extend({
-  url: 'http://localhost:8000/api/users'
+  url: 'http://localhost:8000/api/users',
+  comparator: "name"
 });
 
 var UserView = Backbone.View.extend({
@@ -30,6 +31,7 @@ var UsersView = Backbone.View.extend({
   tagName: 'table',
   className: 'table table-bordered',
   initialize: function(){
+    this.collection.sort();
     this.listenTo(this.collection, 'sync', this.render);
   },
   render: function(){
@@ -37,7 +39,7 @@ var UsersView = Backbone.View.extend({
     this.$el.append($("<tr></tr>").html(
       _.map(["Name", "Phone", "Email"],
       function(val, key) {
-          return "<th>" + val + "</th>";
+          return "<th id='" + val.toLowerCase() + "-column'>" + val + "</th>";
       })
     ));
     this.$el.append(

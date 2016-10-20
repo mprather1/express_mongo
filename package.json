@@ -16,7 +16,7 @@
     "express": "^4.14.0",
     "google-libphonenumber": "^2.0.3",
     "mongoose": "^4.6.4"
-    },
+  },
   "devDependencies": {
     "babel-loader": "^6.2.5",
     "webpack": "^1.13.2"
