@@ -3,7 +3,7 @@
   "description": "",
   "main": "index.js",
   "authors": [
-    "Michael Prather <mprather1@gmail.com>"
+    "Michael Prather"
   ],
   "license": "ISC",
   "homepage": "https://github.com/mprather1/express_mongo",
