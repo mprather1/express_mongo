@@ -1,4 +1,6 @@
 [
   {"name": "Michael Prather", "phone": "8005551234", "email": "mprather@example.com"},
-  {"name": "Kill Bill", "phone": "8005556666", "email": "killbill@example.com"}
+  {"name": "Kill Bill", "phone": "8005556666", "email": "killbill@example.com"},
+  {"name": "Adolf Hitler", "phone": "1234567890", "email": "happyhitler@example.com"},
+  {"name": "Bo Jackson", "phone": "0987654321", "email": "bojacksonplaysfootball@example.com"}
 ]

@@ -31,8 +31,13 @@ var UsersView = Backbone.View.extend({
   tagName: 'table',
   className: 'table table-bordered',
   initialize: function(){
-    this.collection.sort();
     this.listenTo(this.collection, 'sync', this.render);
+    this.listenTo(this.collection, 'sort', this.render)
+  },
+  events: {
+    'click #name-column': 'sortName',
+    'click #phone-column': 'sortPhone',
+    'click #email-column': 'sortEmail'
   },
   render: function(){
     this.$el.empty();
@@ -48,6 +53,18 @@ var UsersView = Backbone.View.extend({
       })
     );
     return this;
+  },
+  sortName: function(){
+    this.collection.comparator = 'name'
+    this.collection.sort();
+  },
+  sortEmail: function(){
+    this.collection.comparator = 'email'
+    this.collection.sort();
+  },
+  sortPhone: function(){
+    this.collection.comparator = "phone"
+    this.collection.sort();
   }
 });
 
