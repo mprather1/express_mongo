@@ -14,7 +14,7 @@ var Users = Backbone.Collection.extend({
 
 var UserView = Backbone.View.extend({
   tagName: 'li',
-  template: _.template("<li>{{name}}</li>"),
+  template: _.template($('#userViewTemplate').html()),
   render: function(){
     this.$el.html(this.template(this.model.toJSON()));
     return this;
