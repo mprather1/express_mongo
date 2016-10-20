@@ -61,6 +61,16 @@ router.route('/users/:user_id')
         res.json({ message: "User updated..." });
       });
     });
+  })
+  
+  .delete(function(req, res){
+    User.remove({
+      _id: req.params.user_id
+    }, function(err, user){
+      if (err)
+       res.send(err)
+      res.json({ message: 'Successfully deleted user...' });
+    });
   });
 
 app.use('/api', router);
