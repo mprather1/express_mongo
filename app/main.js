@@ -12,10 +12,14 @@ var User = Backbone.Model.extend({
     });
   },
   validate : function(attrs,options){
+    function isNormalInteger(str){
+      var n = ~~Number(str);
+      return String(n) === str && n >= 0;
+    }
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (re.test(attrs.email) == false){
-      return 'Invalid Email!!!';
-    } 
+    if (re.test(attrs.email) == false || attrs.lastName === null || attrs.firstName === null || (attrs.phone.length < 10 ) || isNormalInteger(attrs.phone) === false){
+      return 'Invalid Input';
+    }
   }
 });
 
@@ -26,9 +30,6 @@ var Users = Backbone.Collection.extend({
 
 var UserView = Backbone.View.extend({
   tagName: 'tr',
-  initialize: function(){
-    this.listenTo(this.model, 'add', this.render())
-  },
   render: function(){
     var phone_formatted = this.model.get('phone').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
     var fullName = this.model.get("firstName") + " " + this.model.get("lastName");
@@ -54,7 +55,6 @@ var UsersView = Backbone.View.extend({
     this.sortFlag = false;
     this.listenTo(this.sorted, 'sorted:add', this.render);
     this.listenTo(this.collection, 'add', this.render);
-    this.listenTo(this.model, 'add', this.render())
   },
   events: {
     'click': 'sortUsers',
@@ -75,12 +75,12 @@ var UsersView = Backbone.View.extend({
     return this;
   },
   sortUsers: function(flag){
-    if (flag.target.id == 'name'){
+    if (flag.target.id === 'name'){
       var name = 'lastName'
     } else {
       var name = flag.target.id
     }
-    if (this.sortFlag == false){
+    if (this.sortFlag === false){
       var order = 'asc'
       this.sortFlag = true;
     } else {
