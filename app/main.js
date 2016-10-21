@@ -6,15 +6,16 @@ _.templateSettings = {
 
 var Users = Backbone.Collection.extend({
   url: 'http://localhost:8000/api/users',
-  comparator: "name",
+  comparator: 'name'
 });
 
 var UserView = Backbone.View.extend({
   tagName: 'tr',
   render: function(){
-    var phone_formatted = this.model.get('phone').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')
+    var phone_formatted = this.model.get('phone').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+    var fullName = this.model.get("firstName") + " " + this.model.get("lastName");
     this.$el.html(_.map([
-      this.model.get("firstName") + " " + this.model.get("lastName"),
+      fullName,
       phone_formatted,
       this.model.get("email")
     ], function(val, key){
@@ -28,15 +29,14 @@ var UsersView = Backbone.View.extend({
   tagName: 'table',
   className: 'table table-bordered',
   initialize: function(){
+    this.sorted = new SortedCollection(this.collection);
+    this.sorted.setSort('lastName', 'asc')
     this.sortFlag = false;
-    this.listenTo(this.collection, 'sync', this.render);
-    this.listenTo(this.collection, 'sort', this.render);
+    this.listenTo(this.sorted, 'sorted:add', this.render);
     this.listenTo(this.collection, 'add', this.render);
   },
   events: {
-    'click #name': 'sortName',
-    'click #phone': 'sortName',
-    'click #email': 'sortName'
+    'click': 'sortUsers',
   },
   render: function(){
     this.$el.empty();
@@ -47,28 +47,26 @@ var UsersView = Backbone.View.extend({
       })
     ));
     this.$el.append(
-      _.map(this.collection.models, function(model, key){
+      _.map(this.sorted.models, function(model, key){
         return new UserView({ model: model}).render().el;
       })
     );
     return this;
   },
-  sortName: function(flag){
+  sortUsers: function(flag){
     if (flag.target.id == 'name'){
       var name = 'lastName'
     } else {
       var name = flag.target.id
     }
-    this.collection.comparator = name;
     if (this.sortFlag == false){
-      console.log(false)
-      this.collection.sort()
+      var order = 'asc'
       this.sortFlag = true;
     } else {
-      console.log(true)
-      this.collection.sort();
+      var order = 'desc'
       this.sortFlag = false;
     }
+    this.sorted.setSort(name, order)
   }
 });
 
