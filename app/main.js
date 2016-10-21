@@ -5,7 +5,7 @@ _.templateSettings = {
 };
 
 var User = Backbone.Model.extend({
-  urlRoot: 'http://68.103.65.157:8000/api/users',
+  urlRoot: 'http://localhost:8000/api/users',
   initialize : function(){
     this.on("invalid",function(model,error){
       alert(error);
@@ -20,7 +20,7 @@ var User = Backbone.Model.extend({
 });
 
 var Users = Backbone.Collection.extend({
-  url: 'http://68.103.65.157:8000/api/users',
+  url: 'http://localhost:8000/api/users',
   comparator: 'name',
 });
 
