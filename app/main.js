@@ -4,13 +4,31 @@ _.templateSettings = {
     interpolate: /\{\{(.+?)\}\}/g
 };
 
+var User = Backbone.Model.extend({
+  urlRoot: 'http://68.103.65.157:8000/api/users',
+  initialize : function(){
+    this.on("invalid",function(model,error){
+      alert(error);
+    });
+  },
+  validate : function(attrs,options){
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (re.test(attrs.email) == false){
+      return 'Invalid Email!!!';
+    } 
+  }
+});
+
 var Users = Backbone.Collection.extend({
-  url: 'http://localhost:8000/api/users',
-  comparator: 'name'
+  url: 'http://68.103.65.157:8000/api/users',
+  comparator: 'name',
 });
 
 var UserView = Backbone.View.extend({
   tagName: 'tr',
+  initialize: function(){
+    this.listenTo(this.model, 'add', this.render())
+  },
   render: function(){
     var phone_formatted = this.model.get('phone').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
     var fullName = this.model.get("firstName") + " " + this.model.get("lastName");
@@ -27,13 +45,16 @@ var UserView = Backbone.View.extend({
 
 var UsersView = Backbone.View.extend({
   tagName: 'table',
+  model: User,
   className: 'table table-bordered',
   initialize: function(){
+    console.log(this.collection.models)
     this.sorted = new SortedCollection(this.collection);
     this.sorted.setSort('lastName', 'asc')
     this.sortFlag = false;
     this.listenTo(this.sorted, 'sorted:add', this.render);
     this.listenTo(this.collection, 'add', this.render);
+    this.listenTo(this.model, 'add', this.render())
   },
   events: {
     'click': 'sortUsers',
@@ -90,16 +111,23 @@ var UsersFormView = Backbone.View.extend({
     this.$el.html(this.form);
     return false;
   },
-  addUser: function(){
+  addUser: function(e){
+    e.preventDefault();
     var userAttrs = {
       firstName: $('#firstName_input').val(),
       lastName: $('#lastName_input').val(),
       email: $('#email_input').val(),
       phone: $('#phone_input').val()
     }
-    this.users.create(userAttrs);
-    this.render();
-    return false;
+    var newUser = new User({ firstName: userAttrs.firstName, lastName: userAttrs.lastName, email: userAttrs.email, phone: userAttrs.phone })
+    if(newUser.isValid()){
+      this.users.add(newUser)
+      newUser.save();
+    }
+    if(!newUser.validationError){
+      this.render();
+      return false;
+    }
   }
 });
 
