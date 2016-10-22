@@ -4,18 +4,18 @@ const path = require("path");
 module.exports = {
   entry: path.join(__dirname, 'app', 'main.js'),
   output: {
-    path: path.join(__dirname, 'app', 'static'),
+    path: path.join(__dirname, 'app', 'public', 'js'),
     filename: 'bundle.js'
   },
   module: {
-    loaders: [{
-      test: path.join(__dirname, 'app'),
-      loader: ['babel-loader'],
-      query: {
-        cacheDirectory: 'babel_cache',
-        presets: ['es2015']
+    postLoaders: [
+     {
+       test: /\.js$/,
+       include: __dirname + '/app',
+       exclude: [/node_modules/, __dirname + 'app/public'],
+       loader: 'jshint-loader'
       }
-    }]
+   ]
   },
   plugins: [
     new webpack.DefinePlugin({

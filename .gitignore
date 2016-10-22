@@ -1,4 +1,4 @@
 /node_modules
 /app/bower_components
-/app/static
-/babel_cache
+/app/public/js
+
