@@ -1,4 +1,7 @@
 Backbone.Model.prototype.idAttribute = '_id';
+String.prototype.capitalizedFirstLetter = function(){
+  return this.charAt(0).toUpperCase() + this.slice(1);
+};
 
 _.templateSettings = {
     interpolate: /\{\{(.+?)\}\}/g
@@ -97,7 +100,6 @@ var UsersView = Backbone.View.extend({
       order = 'desc';
       this.sortFlag = false;
     }
-    console.log(name)
     this.sorted.setSort(name, order);
   },
   mouseoverFunc: function(event){
@@ -131,8 +133,8 @@ var UsersFormView = Backbone.View.extend({
   addUser: function(e){
     e.preventDefault();
     var userAttrs = {
-      firstName: $('#firstName_input').val(),
-      lastName: $('#lastName_input').val(),
+      firstName: $('#firstName_input').val().capitalizedFirstLetter(),
+      lastName: $('#lastName_input').val().capitalizedFirstLetter(),
       email: $('#email_input').val(),
       phone: $('#phone_input').val()
     };
