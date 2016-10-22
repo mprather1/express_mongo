@@ -27,7 +27,7 @@ var User = Backbone.Model.extend({
         return String(n) === str && n >= 0;
       }
       if (isNormalInteger(computedState.phone) === false || computedState.phone.length < 10)
-        return 'Phone is invalid....'
+        return 'Phone is invalid....';
     }
   }
 });
@@ -54,11 +54,10 @@ var UserView = Backbone.View.extend({
 
 var UsersView = Backbone.View.extend({
   tagName: 'table',
-  model: User,
   className: 'table table-bordered',
   initialize: function(){
     this.sorted = new SortedCollection(this.collection);
-    this.sorted.setSort('lastName', 'asc')
+    // this.sorted.setSort('lastName', 'asc')
     this.sortFlag = false;
     this.listenTo(this.sorted, 'sorted:add', this.render);
     this.listenTo(this.collection, 'add', this.render);
@@ -83,18 +82,18 @@ var UsersView = Backbone.View.extend({
   },
   sortUsers: function(flag){
     if (flag.target.id === 'name'){
-      var name = 'lastName'
+      var name = 'lastName';
     } else {
-      var name = flag.target.id
+      name = flag.target.id;
     }
     if (this.sortFlag === false){
-      var order = 'asc'
+      var order = 'asc';
       this.sortFlag = true;
     } else {
-      var order = 'desc'
+      order = 'desc';
       this.sortFlag = false;
     }
-    this.sorted.setSort(name, order)
+    this.sorted.setSort(name, order);
   }
 });
 
@@ -125,15 +124,15 @@ var UsersFormView = Backbone.View.extend({
       lastName: $('#lastName_input').val(),
       email: $('#email_input').val(),
       phone: $('#phone_input').val()
-    }
-    var newUser = new User()
+    };
+    var newUser = new User();
     Backbone.Validation.bind(this, {
       model: newUser
-    })
+    });
     if (newUser.save(userAttrs)){
-      this.users.add(newUser)
-      Backbone.Validation.unbind(this)
-      this.render()
+      this.users.add(newUser);
+      Backbone.Validation.unbind(this);
+      this.render();
       return false;
     }
   }

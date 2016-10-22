@@ -1,7 +1,7 @@
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
-var validator = require('express-validator')
+var validator = require('express-validator');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/api');
 var User = require("./db/models/user");
@@ -54,7 +54,7 @@ router.route('/users')
           errorMessage: "Invalid characters in phone..."
         }
       }
-    })
+    });
     
     var errors = req.validationErrors();
     if (errors){
@@ -67,8 +67,8 @@ router.route('/users')
       var user = new User();
       user.firstName = req.body.firstName;
       user.lastName = req.body.lastName;
-      user.email = req.body.email
-      user.phone = req.body.phone
+      user.email = req.body.email;
+      user.phone = req.body.phone;
       user.save(function(err){
       if (err) {
         res.send(err);
@@ -127,7 +127,7 @@ router.route('/users/:user_id')
             errorMessage: "Invalid characters in phone..."
           }
         }
-      })
+      });
       var errors = req.validationErrors();
       if (errors){
         res.send(errors);
@@ -141,8 +141,8 @@ router.route('/users/:user_id')
         }
         user.firstName = req.body.firstName;
         user.lastName = req.body.lastName;
-        user.email = req.body.email
-        user.phone =req.body.phone
+        user.email = req.body.email;
+        user.phone =req.body.phone;
         user.save(function(err){
           if (err){
             res.send(err);
