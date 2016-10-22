@@ -34,7 +34,6 @@ var User = Backbone.Model.extend({
 
 var Users = Backbone.Collection.extend({
   url: 'http://localhost:8000/api/users',
-  comparator: 'name',
 });
 
 var UserView = Backbone.View.extend({
