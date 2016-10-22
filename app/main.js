@@ -60,7 +60,7 @@ var UsersView = Backbone.View.extend({
   template: _.template("<thead></thead><tbody></tbody>"),
   initialize: function(){
     this.sorted = new SortedCollection(this.collection);
-    this.sorted.setSort('id', 'asc');
+    this.sorted.setSort('id', 'asc')
     this.sortFlag = null;
     this.listenTo(this.sorted, 'sorted:add', this.render);
     this.listenTo(this.collection, 'add', this.render);
@@ -143,9 +143,9 @@ var UsersFormView = Backbone.View.extend({
     };
     this.model.set(userAttrs);
     if(this.model.isValid(true)){
-      this.collection.add(this.model);
+      this.collection.add(this.model)
     } else {
-      console.log('error');
+      console.log('error')
     }
   }
 });
