@@ -1,7 +1,10 @@
 body {
   padding-top: 65px;
 }
-th {
-  cursor: 'pointer';
+.table-header {
+  background-color: 'lightgrey';
   
+}
+th {
+  background-color: 'yellow';
 }

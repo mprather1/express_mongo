@@ -65,6 +65,8 @@ var UsersView = Backbone.View.extend({
   },
   events: {
     'click': 'sortUsers',
+    'mouseover .table-header': 'mouseoverFunc',
+    'mouseout .table-header': 'mouseoutFunc'
   },
   render: function(){
     // this.$el.empty();
@@ -73,7 +75,7 @@ var UsersView = Backbone.View.extend({
     thead.append($("<tr></tr>").html(
       _.map(["Name", "Phone", "Email"],
       function(val, key) {
-          return "<th style='cursor:pointer;' id='" + val.toLowerCase() + "'>" + val + "</th>";
+          return "<th class='table-header' style='background-color:#999999' id='" + val.toLowerCase() + "'>" + val + "</th>";
       })
     ));
     this.$el.append(
@@ -81,8 +83,8 @@ var UsersView = Backbone.View.extend({
         return new UserView({ model: model}).render().el;
       })
     );
-        thead.prepend("<h1>Users</h1>");
-
+    thead.prepend("<h1>Users</h1>");
+    this.delegateEvents();
     return this;
   },
   sortUsers: function(flag){
@@ -99,6 +101,12 @@ var UsersView = Backbone.View.extend({
       this.sortFlag = false;
     }
     this.sorted.setSort(name, order);
+  },
+  mouseoverFunc: function(event){
+    $(event.currentTarget).css({"background-color":"yellow","cursor":"pointer"});
+  },
+  mouseoutFunc: function(event){
+    $(event.currentTarget).css("background-color", "#999999");
   }
 });
 
