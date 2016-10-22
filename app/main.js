@@ -133,6 +133,7 @@ var UsersFormView = Backbone.View.extend({
     })
     if (newUser.save(userAttrs)){
       this.users.add(newUser)
+      Backbone.Validation.unbind(this)
       this.render()
       return false;
     }
