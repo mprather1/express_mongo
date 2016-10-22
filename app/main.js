@@ -8,17 +8,26 @@ var User = Backbone.Model.extend({
   urlRoot: 'http://localhost:8000/api/users',
   initialize : function(){
     this.on("invalid",function(model,error){
-      alert(error);
+      console.log(error);
     });
   },
-  validate : function(attrs,options){
-    function isNormalInteger(str){
-      var n = ~~Number(str);
-      return String(n) === str && n >= 0;
-    }
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (re.test(attrs.email) == false || attrs.lastName === null || attrs.firstName === null || (attrs.phone.length < 10 ) || isNormalInteger(attrs.phone) === false){
-      return 'Invalid Input';
+  validation: {
+    firstName: {
+      required: true
+    },
+    lastName: {
+      required: true
+    },
+    email: {
+      pattern: 'email'
+    },
+    phone: function(value, attrs, computedState){
+      function isNormalInteger(str){
+        var n = ~~Number(str);
+        return String(n) === str && n >= 0;
+      }
+      if (isNormalInteger(computedState.phone) === false || computedState.phone.length < 10)
+        return 'Phone is invalid....'
     }
   }
 });
@@ -49,7 +58,6 @@ var UsersView = Backbone.View.extend({
   model: User,
   className: 'table table-bordered',
   initialize: function(){
-    console.log(this.collection.models)
     this.sorted = new SortedCollection(this.collection);
     this.sorted.setSort('lastName', 'asc')
     this.sortFlag = false;
@@ -119,13 +127,13 @@ var UsersFormView = Backbone.View.extend({
       email: $('#email_input').val(),
       phone: $('#phone_input').val()
     }
-    var newUser = new User({ firstName: userAttrs.firstName, lastName: userAttrs.lastName, email: userAttrs.email, phone: userAttrs.phone })
-    if(newUser.isValid()){
+    var newUser = new User()
+    Backbone.Validation.bind(this, {
+      model: newUser
+    })
+    if (newUser.save(userAttrs)){
       this.users.add(newUser)
-      newUser.save();
-    }
-    if(!newUser.validationError){
-      this.render();
+      this.render()
       return false;
     }
   }
