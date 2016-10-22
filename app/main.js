@@ -7,7 +7,7 @@ _.templateSettings = {
 var User = Backbone.Model.extend({
   urlRoot: 'http://localhost:8000/api/users',
   initialize : function(){
-    this.on("invalid",function(model,error){
+    this.on("invalid",function(model, error){
       console.log(error);
     });
   },
@@ -19,15 +19,14 @@ var User = Backbone.Model.extend({
       required: true
     },
     email: {
+      required: true,
       pattern: 'email'
     },
-    phone: function(value, attrs, computedState){
-      function isNormalInteger(str){
-        var n = ~~Number(str);
-        return String(n) === str && n >= 0;
-      }
-      if (isNormalInteger(computedState.phone) === false || computedState.phone.length < 10)
-        return 'Phone is invalid....';
+    phone: {
+      required: true,
+      pattern: 'number',
+      minLength: 10,
+      maxLength: 10
     }
   }
 });
@@ -58,7 +57,7 @@ var UsersView = Backbone.View.extend({
   template: _.template("<thead></thead><tbody></tbody>"),
   initialize: function(){
     this.sorted = new SortedCollection(this.collection);
-    // this.sorted.setSort('lastName', 'asc')
+    this.sorted.setSort('id', 'asc')
     this.sortFlag = null;
     this.listenTo(this.sorted, 'sorted:add', this.render);
     this.listenTo(this.collection, 'add', this.render);
@@ -98,6 +97,7 @@ var UsersView = Backbone.View.extend({
       order = 'desc';
       this.sortFlag = false;
     }
+    console.log(name)
     this.sorted.setSort(name, order);
   },
   mouseoverFunc: function(event){

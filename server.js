@@ -6,6 +6,10 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/api');
 var User = require("./db/models/user");
 
+String.prototype.capitalizedFirstLetter = function(){
+  return this.charAt(0).toUpperCase() + this.slice(1);
+};
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(validator());
@@ -65,8 +69,8 @@ router.route('/users')
       return;
     } else {
       var user = new User();
-      user.firstName = req.body.firstName;
-      user.lastName = req.body.lastName;
+      user.firstName = req.body.firstName.capitalizedFirstLetter();
+      user.lastName = req.body.lastName.capitalizedFirstLetter();
       user.email = req.body.email;
       user.phone = req.body.phone;
       user.save(function(err){
