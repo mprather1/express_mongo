@@ -161,6 +161,8 @@ var UsersFormView = Backbone.View.extend({
     this.model.set(userAttrs);
     if(this.model.isValid(true)){
       this.collection.add(this.model);
+      this.render();
+      Backbone.Validation.unbind(this)
     }
   }
 });
