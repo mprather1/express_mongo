@@ -60,7 +60,7 @@ var UsersView = Backbone.View.extend({
   template: _.template("<thead></thead><tbody></tbody>"),
   initialize: function(){
     this.sorted = new SortedCollection(this.collection);
-    this.sorted.setSort('id', 'asc')
+    this.sorted.setSort('id', 'asc');
     this.sortFlag = null;
     this.listenTo(this.sorted, 'sorted:add', this.render);
     this.listenTo(this.collection, 'add', this.render);
@@ -114,8 +114,11 @@ var UsersFormView = Backbone.View.extend({
   tagName: 'form',
   button: _.template("<button class='btn btn-block btn-inverse' id='showFormButton'>Create New User</button>"),
   form: _.template($('#userFormTemplate').html()),
-  initialize: function(options){
-    this.users = options.users;
+  initialize: function(){
+    this.model = new User();
+    Backbone.Validation.bind(this, {
+      model: this.model
+    });
   },
     events: {
     'click #showFormButton': 'showForm',
@@ -138,15 +141,11 @@ var UsersFormView = Backbone.View.extend({
       email: $('#email_input').val(),
       phone: $('#phone_input').val()
     };
-    var newUser = new User();
-    Backbone.Validation.bind(this, {
-      model: newUser
-    });
-    if (newUser.save(userAttrs)){
-      this.users.add(newUser);
-      Backbone.Validation.unbind(this);
-      this.render();
-      return false;
+    this.model.set(userAttrs);
+    if(this.model.isValid(true)){
+      this.collection.add(this.model);
+    } else {
+      console.log('error');
     }
   }
 });
@@ -155,7 +154,7 @@ $(function(){
   var users = new Users;
   users.fetch();
   var usersView = new UsersView({ collection: users });
-  var usersFormView = new UsersFormView({ users: users });
+  var usersFormView = new UsersFormView({ collection: users });
   $('#newForm').html(usersFormView.render().el);
   $('#main').html(usersView.render().el);
 });
