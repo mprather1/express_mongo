@@ -73,7 +73,7 @@ var UsersView = Backbone.View.extend({
     thead.append($("<tr></tr>").html(
       _.map(["Name", "Phone", "Email"],
       function(val, key) {
-          return "<th id='" + val.toLowerCase() + "'>" + val + "</th>";
+          return "<th style='cursor:pointer;' id='" + val.toLowerCase() + "'>" + val + "</th>";
       })
     ));
     this.$el.append(
@@ -81,6 +81,8 @@ var UsersView = Backbone.View.extend({
         return new UserView({ model: model}).render().el;
       })
     );
+        thead.prepend("<h1>Users</h1>");
+
     return this;
   },
   sortUsers: function(flag){
@@ -102,7 +104,7 @@ var UsersView = Backbone.View.extend({
 
 var UsersFormView = Backbone.View.extend({
   tagName: 'form',
-  button: _.template("<button id='showFormButton'>New User</button>"),
+  button: _.template("<a href='#' id='showFormButton'>Create New User</a>"),
   form: _.template($('#userFormTemplate').html()),
   initialize: function(options){
     this.users = options.users;
