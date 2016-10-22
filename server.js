@@ -1,12 +1,14 @@
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
+var validator = require('express-validator')
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/api');
 var User = require("./db/models/user");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(validator());
 app.use(express.static(__dirname + "/app"));
 
 var port = process.env.PORT || 8000;
@@ -24,22 +26,63 @@ router.get('/', function(req, res){
 
 router.route('/users')
   .post(function(req, res){
-    var user = new User();
-    user.firstName = req.body.firstName;
-    user.lastName = req.body.lastName;
-    user.email = req.body.email
-    user.phone = req.body.phone
-    user.save(function(err){
-      if (err)
+    req.checkBody({
+      'firstName': {
+        notEmpty: {
+          errorMessage: "Invalid firstName..."
+        }
+      },
+      'lastName': {
+        notEmpty: {
+          errorMessage: "Invalid lastName..."
+        }
+      },
+      'email': {
+        notEmpty: {
+          errorMessage: "No email entered..."
+        },
+        isEmail: {
+          errorMessage: 'Invalid email...'
+        }
+      },
+      'phone': {
+        isLength: { 
+          options: [{ min: 10, max: 10 }],
+          errorMessage: "phone must be 10 characters..."
+        },
+        isInt: {
+          errorMessage: "Invalid characters in phone..."
+        }
+      }
+    })
+    
+    var errors = req.validationErrors();
+    if (errors){
+      res.send(errors);
+      // for (i = 0; i < errors.length; i++){
+      //   console.log(errors[i].msg)
+      // }
+      return;
+    } else {
+      var user = new User();
+      user.firstName = req.body.firstName;
+      user.lastName = req.body.lastName;
+      user.email = req.body.email
+      user.phone = req.body.phone
+      user.save(function(err){
+      if (err) {
         res.send(err);
+      }
       res.json({ message: "User created..." });
-    });
+      });
+    }
   })
   
   .get(function(req, res){
     User.find(function(err, users){
-      if (err)
+      if (err){
         res.send(err);
+      }
       res.json(users);
     });
   });
@@ -47,25 +90,66 @@ router.route('/users')
 router.route('/users/:user_id')
   .get(function(req, res){
     User.findById(req.params.user_id, function(err, user){
-      if (err)
+      if (err){
         res.send(err);
+      }
       res.json(user);
     });
   })
   
   .put(function(req, res){
     User.findById(req.params.user_id, function(err, user){
-      if (err)
-        res.send(err);
-      user.firstName = req.body.firstName;
-      user.lastName = req.body.lastName;
-      user.email = req.body.email
-      user.phone =req.body.phone
-      user.save(function(err){
-        if (err)
+      req.checkBody({
+        'firstName': {
+          notEmpty: {
+            errorMessage: "Invalid firstName..."
+          }
+        },
+        'lastName': {
+          notEmpty: {
+            errorMessage: "Invalid lastName..."
+          }
+        },
+        'email': {
+          notEmpty: {
+            errorMessage: "No email entered..."
+          },
+          isEmail: {
+            errorMessage: 'Invalid email...'
+          }
+        },
+        'phone': {
+          isLength: { 
+            options: [{ min: 10, max: 10 }],
+            errorMessage: "phone must be 10 characters..."
+          },
+          isInt: {
+            errorMessage: "Invalid characters in phone..."
+          }
+        }
+      })
+      var errors = req.validationErrors();
+      if (errors){
+        res.send(errors);
+        // for (i = 0; i < errors.length; i++){
+        //   console.log(errors[i].msg)
+        // }
+        return;
+      } else {
+        if (err){
           res.send(err);
-        res.json({ message: "User updated..." });
-      });
+        }
+        user.firstName = req.body.firstName;
+        user.lastName = req.body.lastName;
+        user.email = req.body.email
+        user.phone =req.body.phone
+        user.save(function(err){
+          if (err){
+            res.send(err);
+          }
+          res.json({ message: "User updated..." });
+        });
+      }
     });
   })
   
