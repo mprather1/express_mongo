@@ -82,7 +82,7 @@ var UsersView = Backbone.View.extend({
         return new UserView({ model: model}).render().el;
       })
     );
-    thead.prepend("<h1>Users</h1>");
+    thead.prepend("<h3>Users</h3>");
     return this;
   },
   sortUsers: function(flag){
@@ -110,7 +110,7 @@ var UsersView = Backbone.View.extend({
 
 var UsersFormView = Backbone.View.extend({
   tagName: 'form',
-  button: _.template("<button class='btn btn-block btn-primary' id='showFormButton'>Create New User</button>"),
+  button: _.template("<button class='btn btn-block btn-inverse' id='showFormButton'>Create New User</button>"),
   form: _.template($('#userFormTemplate').html()),
   initialize: function(options){
     this.users = options.users;

@@ -6,15 +6,23 @@
   </head>
   <body>
     <script type="text/template" id="userFormTemplate">
-      <div class="panel panel-default" style="position:absolute; margin-top:30px'">
+      <div class="panel panel-default">
       <div class="panel-heading">Create new User</div>
         <div class="panel-body">
-          <input type="text" id="firstName_input" placeholder="First Name..."><br />
-          <input type="text" id="lastName_input" placeholder="Last Name..."><br />
-          <input type="text" id="phone_input" placeholder="Phone..."><br />
-          <input type="text" id="email_input" placeholder="Email..."..."><br />
-          <button class="btn btn-inverse" id="submitUser">Submit</button>
-          <button class="btn btn-inverse" id="cancelButton">Cancel</button>
+          <div class="form-group">
+            <input class="form-control" type="text" id="firstName_input" placeholder="First Name...">
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="text" id="lastName_input" placeholder="Last Name...">
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="text" id="phone_input" placeholder="Phone...">
+          </div>
+          <div class="form-group">
+            <input class="form-control" type="text" id="email_input" placeholder="Email..."...">
+          </div>
+            <button class="btn btn-inverse" id="submitUser">Submit</button>
+            <button class="btn btn-inverse" id="cancelButton">Cancel</button>
         </div>
       </div>
     </script>
