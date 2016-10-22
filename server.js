@@ -60,7 +60,7 @@ router.route('/users')
     if (errors){
       res.send(errors);
       // for (i = 0; i < errors.length; i++){
-      //   console.log(errors[i].msg)
+        // console.log("Error: " + errors[i].msg)
       // }
       return;
     } else {
@@ -132,7 +132,7 @@ router.route('/users/:user_id')
       if (errors){
         res.send(errors);
         // for (i = 0; i < errors.length; i++){
-        //   console.log(errors[i].msg)
+        //   console.log("Error " + errors[i].msg)
         // }
         return;
       } else {

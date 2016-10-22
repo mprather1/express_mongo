@@ -59,7 +59,7 @@ var UsersView = Backbone.View.extend({
   initialize: function(){
     this.sorted = new SortedCollection(this.collection);
     // this.sorted.setSort('lastName', 'asc')
-    this.sortFlag = false;
+    this.sortFlag = null;
     this.listenTo(this.sorted, 'sorted:add', this.render);
     this.listenTo(this.collection, 'add', this.render);
   },
@@ -69,7 +69,6 @@ var UsersView = Backbone.View.extend({
     'mouseout .table-header': 'mouseoutFunc'
   },
   render: function(){
-    // this.$el.empty();
     this.$el.html(this.template());
     var thead = this.$el.find("thead");
     thead.append($("<tr></tr>").html(
@@ -84,7 +83,6 @@ var UsersView = Backbone.View.extend({
       })
     );
     thead.prepend("<h1>Users</h1>");
-    this.delegateEvents();
     return this;
   },
   sortUsers: function(flag){
@@ -112,7 +110,7 @@ var UsersView = Backbone.View.extend({
 
 var UsersFormView = Backbone.View.extend({
   tagName: 'form',
-  button: _.template("<a href='#' id='showFormButton'>Create New User</a>"),
+  button: _.template("<button class='btn btn-block btn-primary' id='showFormButton'>Create New User</button>"),
   form: _.template($('#userFormTemplate').html()),
   initialize: function(options){
     this.users = options.users;
