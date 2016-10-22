@@ -33,7 +33,7 @@ var User = Backbone.Model.extend({
 });
 
 var Users = Backbone.Collection.extend({
-  url: 'http://localhost:8000/api/users',
+  url: 'http://localhost:8000/api/users'
 });
 
 var UserView = Backbone.View.extend({
@@ -54,7 +54,8 @@ var UserView = Backbone.View.extend({
 
 var UsersView = Backbone.View.extend({
   tagName: 'table',
-  className: 'table table-bordered',
+  className: 'table table-striped',
+  template: _.template("<thead></thead><tbody></tbody>"),
   initialize: function(){
     this.sorted = new SortedCollection(this.collection);
     // this.sorted.setSort('lastName', 'asc')
@@ -66,8 +67,10 @@ var UsersView = Backbone.View.extend({
     'click': 'sortUsers',
   },
   render: function(){
-    this.$el.empty();
-    this.$el.append($("<tr></tr>").html(
+    // this.$el.empty();
+    this.$el.html(this.template());
+    var thead = this.$el.find("thead");
+    thead.append($("<tr></tr>").html(
       _.map(["Name", "Phone", "Email"],
       function(val, key) {
           return "<th id='" + val.toLowerCase() + "'>" + val + "</th>";
