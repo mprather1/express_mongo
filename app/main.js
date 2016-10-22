@@ -7,12 +7,29 @@ _.templateSettings = {
     interpolate: /\{\{(.+?)\}\}/g
 };
 
+_.extend(Backbone.Validation.callbacks, {
+  valid: function (view, attr, selector) {
+    var $el = view.$('[name=' + attr + ']'), 
+        $group = $el.closest('.form-group');
+    console.log($group.hasClass('form-group'))
+    $group.removeClass('has-error');
+    $group.find('.help-block').html('').addClass('hidden');
+  },
+  invalid: function (view, attr, error, selector) {
+    var $el = view.$('[name=' + attr + ']'), 
+      $group = $el.closest('.form-group');
+    
+    $group.addClass('has-error');
+    $group.find('.help-block').html(error).removeClass('hidden');
+  }
+});
+
 var User = Backbone.Model.extend({
   urlRoot: 'http://localhost:8000/api/users',
   initialize : function(){
-    this.on("invalid",function(model, error){
-      console.log(error);
-    });
+    // this.on("invalid",function(model, error){
+    //   console.log(error);
+    // });
   },
   validation: {
     firstName: {
@@ -144,8 +161,6 @@ var UsersFormView = Backbone.View.extend({
     this.model.set(userAttrs);
     if(this.model.isValid(true)){
       this.collection.add(this.model);
-    } else {
-      console.log('error');
     }
   }
 });
