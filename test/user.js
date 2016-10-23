@@ -125,4 +125,21 @@ describe('Users', function(){
       });
     });
   });
+  
+  it('DELETE should delete a single user at /api/users/:id', function(done) {
+    chai.request(server)
+    .get("/api/users")
+    .end(function(err, res){
+      chai.request(server)
+      .delete("/api/users/" + res.body[0]._id)
+      .end(function(error, response){
+        response.should.have.status(200);
+        response.should.be.json;
+        response.body.should.be.a('object');
+        response.body.should.have.property('removed');
+        response.body.removed.should.be.a('object');
+        done();
+      });
+    });
+  });
 });

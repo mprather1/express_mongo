@@ -174,7 +174,7 @@ router.route('/users/:user_id')
     }, function(err, user){
       if (err)
        res.send(err)
-      res.json({ message: 'Successfully deleted user...' });
+      res.json({ message: 'Successfully deleted user...', 'removed': user });
     });
   });
 
