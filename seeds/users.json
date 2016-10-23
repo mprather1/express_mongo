@@ -94,5 +94,11 @@
     "lastName": "Rivas",
     "email": "shafferrivas@koogle.com",
     "phone": "(925) 563-3927"
+  },
+  {
+    "firstName": "Mike",
+    "lastName": "Prather",
+    "email": "mprather@example.com",
+    "phone": "5555555555"
   }
 ]

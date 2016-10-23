@@ -59,7 +59,7 @@ var UserView = Backbone.View.extend({
   tagName: 'tr',
   render: function(){
     var phone_formatted = this.model.get('phone').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-    var fullName = this.model.get("firstName").capitalizedFirstLetter() + " " + this.model.get("lastName").capitalizedFirstLetter();
+    var fullName = this.model.get("firstName") + " " + this.model.get("lastName");
     this.$el.html(_.map([
       fullName,
       phone_formatted,
@@ -153,16 +153,17 @@ var UsersFormView = Backbone.View.extend({
   addUser: function(e){
     e.preventDefault();
     var userAttrs = {
-      firstName: $('#firstName_input').val(),
-      lastName: $('#lastName_input').val(),
+      firstName: $('#firstName_input').val().capitalizedFirstLetter(),
+      lastName: $('#lastName_input').val().capitalizedFirstLetter(),
       email: $('#email_input').val(),
       phone: $('#phone_input').val()
     };
     this.model.set(userAttrs);
     if(this.model.isValid(true)){
+      this.model.save();
       this.collection.add(this.model);
       this.render();
-      Backbone.Validation.unbind(this)
+      // Backbone.Validation.unbind(this)
     }
   }
 });

@@ -30,7 +30,7 @@ var port = process.env.PORT || 8000;
 var router = express.Router();
 
 router.use(function(req, res, next){
-  // console.log("Loading....");
+  console.log("Loading....");
   next();
 });
 
@@ -79,8 +79,8 @@ router.route('/users')
       return;
     } else {
       var user = new User();
-      user.firstName = req.body.firstName
-      user.lastName = req.body.lastName
+      user.firstName = req.body.firstName.capitalizedFirstLetter();
+      user.lastName = req.body.lastName.capitalizedFirstLetter();
       user.email = req.body.email;
       user.phone = req.body.phone;
       user.save(function(err){
@@ -153,8 +153,8 @@ router.route('/users/:user_id')
         if (err){
           res.send(err);
         }
-        user.firstName = req.body.firstName;
-        user.lastName = req.body.lastName;
+        user.firstName = req.body.firstName.capitalizedFirstLetter();
+        user.lastName = req.body.lastName.capitalizedFirstLetter();
         user.email = req.body.email;
         user.phone =req.body.phone;
         user.save(function(err){
