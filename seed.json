@@ -1,5 +1,5 @@
 {
-	"undefined": "mongodb://localhost/api",
-	"dev": "mongodb://localhost/api",
-	"prod": "mongodb://localhost/api"
+	"undefined": "mongodb://localhost/company_directory",
+	"dev": "mongodb://localhost/company_directory",
+	"prod": "mongodb://localhost/company_directory"
 }

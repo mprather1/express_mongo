@@ -1,10 +1,20 @@
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
-var validator = require('express-validator');
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/api');
-var User = require("./db/models/user");
+var express = require("express"),
+    app = express(),
+    bodyParser = require("body-parser"),
+    validator = require('express-validator'),
+    config = require("./_config"),
+    User = require("./db/models/User"),
+    mongoose = require('mongoose'),
+    environment = app.settings.env || 'development',
+    connectionString = config.mongoURI[environment];
+
+mongoose.connect(connectionString, function(err, res){
+  if (err){
+    console.log("Error: " + err);
+  } else {
+    console.log("Connected to database: " + connectionString);
+  }
+})
 
 String.prototype.capitalizedFirstLetter = function(){
   return this.charAt(0).toUpperCase() + this.slice(1);
@@ -20,7 +30,7 @@ var port = process.env.PORT || 8000;
 var router = express.Router();
 
 router.use(function(req, res, next){
-  console.log("Something is happening....");
+  console.log("Loading....");
   next();
 });
 
@@ -69,15 +79,15 @@ router.route('/users')
       return;
     } else {
       var user = new User();
-      user.firstName = req.body.firstName.capitalizedFirstLetter();
-      user.lastName = req.body.lastName.capitalizedFirstLetter();
+      user.firstName = req.body.firstName
+      user.lastName = req.body.lastName
       user.email = req.body.email;
       user.phone = req.body.phone;
       user.save(function(err){
       if (err) {
         res.send(err);
       }
-      res.json({ message: "User created..." });
+      res.json({ message: "User created...", success: user });
       });
     }
   })
