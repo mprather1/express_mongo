@@ -58,7 +58,6 @@ var User = Backbone.Model.extend({
     }
     for (attr in attrs) {
       if (attr == 'firstName' || attr == 'lastName' || attr == 'email') {
-        console.log(attrs[attr].toLowerCase())
         attrs[attr] = attrs[attr].toLowerCase();
       }
     }
@@ -95,7 +94,7 @@ var UsersView = Backbone.View.extend({
     this.sorted.setSort('id', 'asc');
     this.sortFlag = null;
     this.listenTo(this.sorted, 'sorted:add', this.render);
-    this.listenTo(this.collection, 'add', this.render);
+    this.listenTo(this.collection, 'sync', this.render);
   },
   events: {
     'click': 'sortUsers',
@@ -177,8 +176,8 @@ var UsersFormView = Backbone.View.extend({
     if(this.model.isValid(true)){
       this.model.save();
       this.collection.add(this.model);
+      Backbone.Validation.unbind(this);
       this.render();
-      Backbone.Validation.unbind(this)
     }
   }
 });
