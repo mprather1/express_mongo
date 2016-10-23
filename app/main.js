@@ -11,7 +11,6 @@ _.extend(Backbone.Validation.callbacks, {
   valid: function (view, attr, selector) {
     var $el = view.$('[name=' + attr + ']'), 
         $group = $el.closest('.form-group');
-    console.log($group.hasClass('form-group'))
     $group.removeClass('has-error');
     $group.find('.help-block').html('').addClass('hidden');
   },
@@ -59,7 +58,7 @@ var UserView = Backbone.View.extend({
   tagName: 'tr',
   render: function(){
     var phone_formatted = this.model.get('phone').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-    var fullName = this.model.get("firstName") + " " + this.model.get("lastName");
+    var fullName = this.model.get("firstName").capitalizedFirstLetter() + " " + this.model.get("lastName").capitalizedFirstLetter();
     this.$el.html(_.map([
       fullName,
       phone_formatted,
@@ -153,8 +152,8 @@ var UsersFormView = Backbone.View.extend({
   addUser: function(e){
     e.preventDefault();
     var userAttrs = {
-      firstName: $('#firstName_input').val().capitalizedFirstLetter(),
-      lastName: $('#lastName_input').val().capitalizedFirstLetter(),
+      firstName: $('#firstName_input').val().toLowerCase(),
+      lastName: $('#lastName_input').val().toLowerCase(),
       email: $('#email_input').val(),
       phone: $('#phone_input').val()
     };

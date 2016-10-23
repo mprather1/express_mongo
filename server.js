@@ -79,8 +79,8 @@ router.route('/users')
       return;
     } else {
       var user = new User();
-      user.firstName = req.body.firstName.capitalizedFirstLetter();
-      user.lastName = req.body.lastName.capitalizedFirstLetter();
+      user.firstName = req.body.firstName.toLowerCase();
+      user.lastName = req.body.lastName.toLowerCase();
       user.email = req.body.email;
       user.phone = req.body.phone;
       user.save(function(err){
@@ -153,8 +153,8 @@ router.route('/users/:user_id')
         if (err){
           res.send(err);
         }
-        user.firstName = req.body.firstName.capitalizedFirstLetter();
-        user.lastName = req.body.lastName.capitalizedFirstLetter();
+        user.firstName = req.body.firstName.toLowerCase();
+        user.lastName = req.body.lastName.toLowerCase();
         user.email = req.body.email;
         user.phone =req.body.phone;
         user.save(function(err){

@@ -13,9 +13,9 @@ describe('Users', function(){
   
   beforeEach(function(done){
     var newUser = new User({
-      firstName: "mohammed",
-      lastName: "ali",
-      email: "mohammed-ali@gmail.com",
+      firstName: "giant",
+      lastName: "douche",
+      email: "giant-douche@gmail.com",
       phone: 1234567890
     });
     newUser.save(function(err){
@@ -40,19 +40,19 @@ describe('Users', function(){
       res.body[0].should.have.property('lastName');
       res.body[0].should.have.property('phone');
       res.body[0].should.have.property('email');
-      res.body[0].firstName.should.equal('mohammed');
-      res.body[0].lastName.should.equal('ali');
+      res.body[0].firstName.should.equal('giant');
+      res.body[0].lastName.should.equal('douche');
       res.body[0].phone.should.equal('1234567890');
-      res.body[0].email.should.equal('mohammed-ali@gmail.com');
+      res.body[0].email.should.equal('giant-douche@gmail.com');
       done();
     });
   });
   
   it('GET should list a SINGLE user at /api/user/:id ', function(done) {
     var newUser = new User({
-      firstName: "mohammed",
-      lastName: "ali",
-      email: "mohammed-ali@gmail.com",
+      firstName: "giant",
+      lastName: "douche",
+      email: "giant-douche@gmail.com",
       phone: 1234567890
     });
     newUser.save(function(err, data){
@@ -67,10 +67,10 @@ describe('Users', function(){
         res.body.should.have.a.property('lastName');
         res.body.should.have.a.property('phone');
         res.body.should.have.a.property('email');
-        res.body.firstName.should.equal('mohammed');
-        res.body.lastName.should.equal('ali');
+        res.body.firstName.should.equal('giant');
+        res.body.lastName.should.equal('douche');
         res.body.phone.should.equal('1234567890');
-        res.body.email.should.equal('mohammed-ali@gmail.com');
+        res.body.email.should.equal('giant-douche@gmail.com');
         res.body._id.should.equal(data.id);
         done();
       });
@@ -80,7 +80,7 @@ describe('Users', function(){
   it("POST should add a single user", function(done) {
     chai.request(server)
     .post('/api/users')
-    .send({"firstName": "mohammed", "lastName": "ali", "phone": 1234567890, "email": "mohammed-ali@hotmail.com"})
+    .send({"firstName": "giant", "lastName": "douche", "phone": 1234567890, "email": "giant-douche@hotmail.com"})
     .end(function(err, res){
       res.should.have.status(200);
       res.should.be.json;
@@ -91,9 +91,9 @@ describe('Users', function(){
       res.body.success.should.have.property('lastName');
       res.body.success.should.have.property('phone');
       res.body.success.should.have.property('email');
-      res.body.success.firstName.should.equal("mohammed");
-      res.body.success.lastName.should.equal("ali");
-      res.body.success.email.should.equal("mohammed-ali@hotmail.com");
+      res.body.success.firstName.should.equal("giant");
+      res.body.success.lastName.should.equal("douche");
+      res.body.success.email.should.equal("giant-douche@hotmail.com");
       res.body.success.phone.should.equal("1234567890");
       done();
     });
@@ -105,7 +105,7 @@ describe('Users', function(){
     .end(function(err, res){
       chai.request(server)
       .put('/api/users/' + res.body[0]._id)
-      .send({"firstName": "cassius", "lastName": "clay", "phone": 9876543210, "email": "cassius-clay@gmail.com"})
+      .send({"firstName": "turd", "lastName": "sandwich", "phone": 9876543210, "email": "turd-sandwich@gmail.com"})
       .end(function(error, response){
         response.should.have.status(200);
         response.should.be.json;
@@ -117,10 +117,10 @@ describe('Users', function(){
         response.body.updated.should.have.property('phone');
         response.body.updated.should.have.property('email');
         response.body.updated.should.have.property('_id');
-        response.body.updated.firstName.should.equal('cassius');
-        response.body.updated.lastName.should.equal('clay');
+        response.body.updated.firstName.should.equal('turd');
+        response.body.updated.lastName.should.equal('sandwich');
         response.body.updated.phone.should.equal('9876543210');
-        response.body.updated.email.should.equal('cassius-clay@gmail.com');
+        response.body.updated.email.should.equal('turd-sandwich@gmail.com');
         done();
       });
     });
