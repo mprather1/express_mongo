@@ -98,4 +98,31 @@ describe('Users', function(){
       done();
     });
   });
-})
+  
+  it('PUT should update a single user at /api/users/:id', function(done) {
+    chai.request(server)
+    .get('/api/users')
+    .end(function(err, res){
+      chai.request(server)
+      .put('/api/users/' + res.body[0]._id)
+      .send({"firstName": "cassius", "lastName": "clay", "phone": 9876543210, "email": "cassius-clay@gmail.com"})
+      .end(function(error, response){
+        response.should.have.status(200);
+        response.should.be.json;
+        response.body.should.be.a('object');
+        response.body.should.have.property('updated');
+        response.body.updated.should.be.a('object');
+        response.body.updated.should.have.property('firstName');
+        response.body.updated.should.have.property('lastName');
+        response.body.updated.should.have.property('phone');
+        response.body.updated.should.have.property('email');
+        response.body.updated.should.have.property('_id');
+        response.body.updated.firstName.should.equal('cassius');
+        response.body.updated.lastName.should.equal('clay');
+        response.body.updated.phone.should.equal('9876543210');
+        response.body.updated.email.should.equal('cassius-clay@gmail.com');
+        done();
+      });
+    });
+  });
+});
