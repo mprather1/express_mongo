@@ -15,7 +15,7 @@ describe('Users', function(){
     var newUser = new User({
       firstName: "giant",
       lastName: "douche",
-      email: "giant-douche@gmail.com",
+      email: "giant-douche@example.com",
       phone: 1234567890
     });
     newUser.save(function(err){
@@ -43,7 +43,7 @@ describe('Users', function(){
       res.body[0].firstName.should.equal('giant');
       res.body[0].lastName.should.equal('douche');
       res.body[0].phone.should.equal('1234567890');
-      res.body[0].email.should.equal('giant-douche@gmail.com');
+      res.body[0].email.should.equal('giant-douche@example.com');
       done();
     });
   });
@@ -52,7 +52,7 @@ describe('Users', function(){
     var newUser = new User({
       firstName: "giant",
       lastName: "douche",
-      email: "giant-douche@gmail.com",
+      email: "giant-douche@example.com",
       phone: 1234567890
     });
     newUser.save(function(err, data){
@@ -70,7 +70,7 @@ describe('Users', function(){
         res.body.firstName.should.equal('giant');
         res.body.lastName.should.equal('douche');
         res.body.phone.should.equal('1234567890');
-        res.body.email.should.equal('giant-douche@gmail.com');
+        res.body.email.should.equal('giant-douche@example.com');
         res.body._id.should.equal(data.id);
         done();
       });
@@ -105,7 +105,7 @@ describe('Users', function(){
     .end(function(err, res){
       chai.request(server)
       .put('/api/users/' + res.body[0]._id)
-      .send({"firstName": "turd", "lastName": "sandwich", "phone": 9876543210, "email": "turd-sandwich@gmail.com"})
+      .send({"firstName": "turd", "lastName": "sandwich", "phone": 9876543210, "email": "turd-sandwich@example.com"})
       .end(function(error, response){
         response.should.have.status(200);
         response.should.be.json;
@@ -120,7 +120,7 @@ describe('Users', function(){
         response.body.updated.firstName.should.equal('turd');
         response.body.updated.lastName.should.equal('sandwich');
         response.body.updated.phone.should.equal('9876543210');
-        response.body.updated.email.should.equal('turd-sandwich@gmail.com');
+        response.body.updated.email.should.equal('turd-sandwich@example.com');
         done();
       });
     });
