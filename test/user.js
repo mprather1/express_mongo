@@ -28,7 +28,7 @@ describe('Users', function(){
     done();
   });
   
-  it('GET should list All users', function(done){
+  it('GET should list All users at /api/users', function(done){
     chai.request(server)
     .get('/api/users')
     .end(function(err, res){
@@ -45,6 +45,35 @@ describe('Users', function(){
       res.body[0].phone.should.equal('1234567890');
       res.body[0].email.should.equal('mohammed-ali@gmail.com');
       done();
+    });
+  });
+  
+  it('GET should list a SINGLE user at /api/user/:id ', function(done) {
+    var newUser = new User({
+      firstName: "mohammed",
+      lastName: "ali",
+      email: "mohammed-ali@gmail.com",
+      phone: 1234567890
+    });
+    newUser.save(function(err, data){
+      chai.request(server)
+      .get('/api/users/' + data.id)
+      .end(function(err, res){
+        res.should.have.status(200);
+        res.should.be.json;
+        res.body.should.be.a('object');
+        res.body.should.have.a.property('_id');
+        res.body.should.have.a.property('firstName');
+        res.body.should.have.a.property('lastName');
+        res.body.should.have.a.property('phone');
+        res.body.should.have.a.property('email');
+        res.body.firstName.should.equal('mohammed');
+        res.body.lastName.should.equal('ali');
+        res.body.phone.should.equal('1234567890');
+        res.body.email.should.equal('mohammed-ali@gmail.com');
+        res.body._id.should.equal(data.id);
+        done();
+      });
     });
   });
   
