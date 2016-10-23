@@ -47,6 +47,22 @@ var User = Backbone.Model.extend({
       minLength: 10,
       maxLength: 10
     }
+  },
+  set: function(key, value, options) {
+    if (_.isObject(key) || key == null) {
+      attrs = key;
+      options = value;
+    } else {
+      attrs = {};
+      attrs[key] = value;
+    }
+    for (attr in attrs) {
+      if (attr == 'firstName' || attr == 'lastName' || attr == 'email') {
+        console.log(attrs[attr].toLowerCase())
+        attrs[attr] = attrs[attr].toLowerCase();
+      }
+    }
+    return Backbone.Model.prototype.set.call(this, attrs, options);
   }
 });
 
@@ -132,9 +148,6 @@ var UsersFormView = Backbone.View.extend({
   form: _.template($('#userFormTemplate').html()),
   initialize: function(){
     this.model = new User();
-    Backbone.Validation.bind(this, {
-      model: this.model
-    });
   },
     events: {
     'click #showFormButton': 'showForm',
@@ -143,6 +156,9 @@ var UsersFormView = Backbone.View.extend({
   },
   render: function(){
     this.$el.html(this.button());
+    Backbone.Validation.bind(this, {
+      model: this.model
+    });
     return this;
   },
   showForm: function(){
@@ -152,8 +168,8 @@ var UsersFormView = Backbone.View.extend({
   addUser: function(e){
     e.preventDefault();
     var userAttrs = {
-      firstName: $('#firstName_input').val().toLowerCase(),
-      lastName: $('#lastName_input').val().toLowerCase(),
+      firstName: $('#firstName_input').val(),
+      lastName: $('#lastName_input').val(),
       email: $('#email_input').val(),
       phone: $('#phone_input').val()
     };
@@ -162,7 +178,7 @@ var UsersFormView = Backbone.View.extend({
       this.model.save();
       this.collection.add(this.model);
       this.render();
-      // Backbone.Validation.unbind(this)
+      Backbone.Validation.unbind(this)
     }
   }
 });
