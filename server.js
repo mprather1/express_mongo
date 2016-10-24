@@ -83,6 +83,7 @@ router.route('/users')
       user.lastName = req.body.lastName.toLowerCase();
       user.email = req.body.email;
       user.phone = req.body.phone;
+      user.phone_sort_id = req.body.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1');
       user.save(function(err){
       if (err) {
         res.send(err);
@@ -157,6 +158,7 @@ router.route('/users/:user_id')
         user.lastName = req.body.lastName.toLowerCase();
         user.email = req.body.email;
         user.phone =req.body.phone;
+        user.phone_sort_id = req.body.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1');
         user.save(function(err){
           if (err){
             res.send(err);

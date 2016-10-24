@@ -16,7 +16,7 @@ describe('Users', function(){
       firstName: "giant",
       lastName: "douche",
       email: "giant-douche@example.com",
-      phone: 1234567890
+      phone: "1234567890"
     });
     newUser.save(function(err){
       done();
@@ -53,7 +53,7 @@ describe('Users', function(){
       firstName: "giant",
       lastName: "douche",
       email: "giant-douche@example.com",
-      phone: 1234567890
+      phone: "1234567890"
     });
     newUser.save(function(err, data){
       chai.request(server)
@@ -80,7 +80,7 @@ describe('Users', function(){
   it("POST should add a single user", function(done) {
     chai.request(server)
     .post('/api/users')
-    .send({"firstName": "giant", "lastName": "douche", "phone": 1234567890, "email": "giant-douche@hotmail.com"})
+    .send({"firstName": "giant", "lastName": "douche", "phone": "1234567890", "email": "giant-douche@hotmail.com"})
     .end(function(err, res){
       res.should.have.status(200);
       res.should.be.json;
@@ -105,7 +105,7 @@ describe('Users', function(){
     .end(function(err, res){
       chai.request(server)
       .put('/api/users/' + res.body[0]._id)
-      .send({"firstName": "turd", "lastName": "sandwich", "phone": 9876543210, "email": "turd-sandwich@example.com"})
+      .send({"firstName": "turd", "lastName": "sandwich", "phone": "9876543210", "email": "turd-sandwich@example.com"})
       .end(function(error, response){
         response.should.have.status(200);
         response.should.be.json;
