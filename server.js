@@ -94,11 +94,13 @@ router.route('/users')
   })
   
   .get(function(req, res){
-    User.find(function(err, users){
+    var page = parseInt(req.params.page)
+    console.log(page)
+    User.paginate({}, { page: page, limit: 10 }, function(err, result){
       if (err){
         res.send(err);
       }
-      res.json(users);
+      res.json(result.docs);
     });
   });
   

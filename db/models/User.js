@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
+var mongoosePaginate = require('mongoose-paginate');
 
 var UserSchema = new Schema({
   firstName: String,
@@ -9,4 +10,5 @@ var UserSchema = new Schema({
   phone_sort_id: String
 });
 
+UserSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model('User', UserSchema);

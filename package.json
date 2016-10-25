@@ -16,7 +16,8 @@
     "express-validator": "^2.20.10",
     "jshint": "^2.9.4",
     "jshint-loader": "^0.8.3",
-    "mongoose": "^4.6.4"
+    "mongoose": "^4.6.4",
+    "mongoose-paginate": "^5.0.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",

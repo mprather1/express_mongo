@@ -65,8 +65,9 @@ var User = Backbone.Model.extend({
   }
 });
 
-var Users = Backbone.Collection.extend({
-  url: 'http://localhost:8000/api/users'
+var Users = Backbone.PageableCollection.extend({
+  model: User,
+  url: 'http://localhost:8000/api/users?&'
 });
 
 var UserView = Backbone.View.extend({
